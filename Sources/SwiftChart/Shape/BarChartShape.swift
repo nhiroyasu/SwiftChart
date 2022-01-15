@@ -3,11 +3,12 @@ import SwiftUI
 
 struct BarChartShape: Shape {
     
-    var barWidth: Double = 32
-    var marginTop: Double = 16
-    var marginButton: Double = 16
-    var marginLeft: Double = 16
-    var marginRight: Double = 16
+    var barWidth: Double
+    var barSpace: Double
+    var marginTop: Double
+    var marginBottom: Double
+    var marginLeft: Double
+    var marginRight: Double
     @Binding var data: [Double]
     
     /// データの最大値
@@ -36,7 +37,7 @@ struct BarChartShape: Shape {
     private func computeBarRect(index: Int, value: Double, on rect: CGRect) -> CGRect {
         // xPoint
         let barOffset = barWidth * Double(index)
-        let barSpaceOffset = computeBarSpace(on: rect) * Double(index)
+        let barSpaceOffset = barSpace * Double(index)
         let xPoint = marginLeft + barOffset + barSpaceOffset
         // yPoint
         let barHeight = barDisplayHeight(value: value, on: rect)
@@ -48,7 +49,7 @@ struct BarChartShape: Shape {
         // point + size = rect
         return CGRect(origin: point, size: barSize)
     }
-
+    
     /// BarChartで実際のViewに表示されるBarの高さ
     /// - Parameters:
     ///   - value: グラフ上の値
@@ -63,29 +64,34 @@ struct BarChartShape: Shape {
     /// - Parameter rect: Viewのサイズ
     /// - Returns: サイズ
     private func chartContentSize(on rect: CGRect) -> CGSize {
-        let contentHeight = rect.height - (marginTop + marginButton)
+        let contentHeight = rect.height - (marginTop + marginBottom)
         let contentWidth = rect.width - (marginLeft + marginRight)
         return CGSize(width: contentWidth, height: contentHeight)
-    }
-    
-    /// 適切なBarSpace値を計算する
-    /// - Parameter rect: ViewのRect
-    /// - Returns: barSpace
-    private func computeBarSpace(on rect: CGRect) -> Double {
-        let barTotalWidth = barWidth * Double(data.count)
-        let contentWidth = chartContentSize(on: rect).width
-        return (contentWidth - barTotalWidth) / Double(data.count - 1)
     }
 }
 
 struct BarChartShape_Preview: PreviewProvider {
     static var previews: some View {
         Group {
-            BarChartShape(data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
+            BarChartShape(
+                barWidth: 32,
+                barSpace: 12,
+                marginTop: 16,
+                marginBottom: 16,
+                marginLeft: 16,
+                marginRight: 16,
+                data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
                 .stroke(Color.white, lineWidth: 3)
                 .frame(width: 400, height: 300)
             
-            BarChartShape(data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
+            BarChartShape(
+                barWidth: 32,
+                barSpace: 12,
+                marginTop: 16,
+                marginBottom: 16,
+                marginLeft: 16,
+                marginRight: 16,
+                data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
                 .fill(Color.white)
                 .frame(width: 400, height: 300)
         }
