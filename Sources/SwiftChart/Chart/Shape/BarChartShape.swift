@@ -9,7 +9,8 @@ struct BarChartShape: Shape {
     var marginBottom: Double
     var marginLeft: Double
     var marginRight: Double
-    @Binding var data: [Double]
+    var shapeType: BarChartShapeType
+    var data: [Double]
     
     /// データの最大値
     private var maxValue: Double {
@@ -21,7 +22,19 @@ struct BarChartShape: Shape {
         Path { path in
             data.enumerated().forEach { (index, value) in
                 let barRect = computeBarRect(index: index, value: value, on: rect)
-                path.addRect(barRect)
+                switch shapeType {
+                case .rect:
+                    path.addRect(barRect)
+                case .round(let radius):
+                    let radiusSize = CGSize(width: radius, height: radius)
+                    let fixedRect = fixRoundedBarSize(radius: radius, baseRect: barRect, on: rect)
+                    path.addRoundedRect(in: fixedRect, cornerSize: radiusSize)
+                case .pill:
+                    let radius = barWidth / 2
+                    let radiusSize = CGSize(width: barWidth / 2, height: barWidth / 2)
+                    let fixedRect = fixRoundedBarSize(radius: radius, baseRect: barRect, on: rect)
+                    path.addRoundedRect(in: fixedRect, cornerSize: radiusSize)
+                }
                 path.closeSubpath()
             }
         }
@@ -50,6 +63,15 @@ struct BarChartShape: Shape {
         return CGRect(origin: point, size: barSize)
     }
     
+    /// Barの高さが決まっていた場合のYのpositionを計算するメソッド
+    /// - Parameters:
+    ///   - barHeight: barの高さ
+    ///   - rect: 描画するViewのRect
+    /// - Returns: y point
+    private func computeYPoint(barHeight: Double, on rect: CGRect) -> Double {
+        return marginTop + chartContentSize(on: rect).height - barHeight
+    }
+    
     /// BarChartで実際のViewに表示されるBarの高さ
     /// - Parameters:
     ///   - value: グラフ上の値
@@ -68,6 +90,24 @@ struct BarChartShape: Shape {
         let contentWidth = rect.width - (marginLeft + marginRight)
         return CGSize(width: contentWidth, height: contentHeight)
     }
+    
+    
+    /// BarがCorderRadiusで潰れてしまわないように高さを調整するメソッド
+    /// - Parameters:
+    ///   - radius: 角丸値
+    ///   - baseRect: 元のbarRect
+    ///   - rect: 描画するViewのRect
+    /// - Returns: 修正されたRect
+    private func fixRoundedBarSize(radius: Double, baseRect: CGRect, on rect: CGRect) -> CGRect {
+        if radius >= baseRect.height / 2 {
+            let yPoint = computeYPoint(barHeight: radius * 2, on: rect)
+            return CGRect(origin: CGPoint(x: baseRect.origin.x, y: yPoint),
+                          size: CGSize(width: barWidth, height: radius * 2))
+        } else {
+            return baseRect
+        }
+    }
+    
 }
 
 struct BarChartShape_Preview: PreviewProvider {
@@ -80,7 +120,8 @@ struct BarChartShape_Preview: PreviewProvider {
                 marginBottom: 16,
                 marginLeft: 16,
                 marginRight: 16,
-                data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
+                shapeType: .rect,
+                data: [10, 50, 60, 30, 20, 5, 15, 120])
                 .stroke(Color.defaultBar, lineWidth: 3)
                 .background(Color.defaultBackground)
                 .frame(width: 400, height: 300)
@@ -92,7 +133,34 @@ struct BarChartShape_Preview: PreviewProvider {
                 marginBottom: 16,
                 marginLeft: 16,
                 marginRight: 16,
-                data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
+                shapeType: .round(radius: 8),
+                data: [10, 50, 60, 30, 20, 5, 15, 120])
+                .fill(Color.defaultBar)
+                .background(Color.defaultBackground)
+                .frame(width: 400, height: 300)
+            
+            BarChartShape(
+                barWidth: 32,
+                barSpace: 12,
+                marginTop: 16,
+                marginBottom: 16,
+                marginLeft: 16,
+                marginRight: 16,
+                shapeType: .rect,
+                data: [10, 50, 60, 30, 20, 5, 15, 120])
+                .fill(Color.defaultBar)
+                .background(Color.defaultBackground)
+                .frame(width: 400, height: 300)
+            
+            BarChartShape(
+                barWidth: 32,
+                barSpace: 12,
+                marginTop: 16,
+                marginBottom: 16,
+                marginLeft: 16,
+                marginRight: 16,
+                shapeType: .pill,
+                data:[10, 50, 60, 30, 20, 5, 15, 120])
                 .fill(Color.defaultBar)
                 .background(Color.defaultBackground)
                 .frame(width: 400, height: 300)
