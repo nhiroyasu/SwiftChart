@@ -18,11 +18,11 @@ struct SampleView: View {
     )
 
     var body: some View {
-        BarChart(data: chartData, barWidth: 16)
-            .style(BarChartStyle(
-                barColor: Color(NSColor(named: "primary")!),
-                backgroundColor: Color(NSColor(named: "backgroundColor")!),
-                barShape: .round(radius: 2)))
+        BarChart(data: barChartData3, barWidth: 16)
+            .style(BarChartStyle(barShape: .round(radius: 4)))
+            .frame(width: 400, height: 260)
     }
 }
 ```
+
+![image](https://user-images.githubusercontent.com/40600280/149652731-e6d050ed-348a-44c4-80f4-a96fc607db98.png)
