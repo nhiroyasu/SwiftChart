@@ -40,7 +40,7 @@ extension EnvironmentValues {
     }
 }
 
-extension BarChart {
+extension View {
     public func style(_ style: BarChartStyle) -> some View {
         environment(\.barChartStyle, style)
     }

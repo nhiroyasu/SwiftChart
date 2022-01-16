@@ -6,6 +6,7 @@ public struct BarChart: View {
     var data: BarChartData
     var barWidth: Double
     @Environment(\.barChartStyle) var style
+    @Environment(\.barChartVisibility) var visibility
     
     public init(
         data: BarChartData,
@@ -15,8 +16,12 @@ public struct BarChart: View {
         self.barWidth = barWidth
     }
     
-    private let xAxisLabelHeight: Double = 32
-    private let yAxisLabelWidth: Double = 64
+    private var xAxisLabelHeight: Double {
+        visibility.xAxisLabel ? 32 : 0
+    }
+    private var yAxisLabelWidth: Double {
+        visibility.yAxisLabel ? 64 : 0
+    }
     
     private func computeYAxis(on size: CGSize) -> YAxis {
         YAxis(from: 0, to: size.height, x: 0)
@@ -63,25 +68,31 @@ public struct BarChart: View {
             Spacer(minLength: 16)
             GeometryReader { geometry in
                 HStack(alignment: .top, spacing: 0) {
-                    ZStack {
-                        let yAxisLabels = computeYAxisLabels(yAxisHeight: geometry.size.height - xAxisLabelHeight)
-                        ForEach(yAxisLabels) { label in
-                            let halfFontSize = 8.0
-                            Text(label.label)
-                                .font(style.yLabelFont)
-                                .foregroundColor(style.yLabelColor)
-                                .offset(x: 0, y: label.position - halfFontSize)
+                    if visibility.yAxisLabel {
+                        ZStack {
+                            let yAxisLabels = computeYAxisLabels(yAxisHeight: geometry.size.height - xAxisLabelHeight)
+                            ForEach(yAxisLabels) { label in
+                                let halfFontSize = 8.0
+                                Text(label.label)
+                                    .font(style.yLabelFont)
+                                    .foregroundColor(style.yLabelColor)
+                                    .offset(x: 0, y: label.position - halfFontSize)
+                            }
                         }
+                        .frame(width: yAxisLabelWidth)
                     }
-                    .frame(width: yAxisLabelWidth)
                     VStack(spacing: 0) {
                         let axisContentSize = CGSize(
                             width: geometry.size.width - yAxisLabelWidth,
                             height: geometry.size.height - xAxisLabelHeight
                         )
                         ZStack {
-                            AxisLine(axis: computeYAxis(on: axisContentSize), color: .defaultAxis)
-                            AxisLine(axis: computeXAxis(on: axisContentSize), color: .defaultAxis)
+                            if visibility.yAxisLine {
+                                AxisLine(axis: computeYAxis(on: axisContentSize), color: .defaultAxis)
+                            }
+                            if visibility.xAxisLine {
+                                AxisLine(axis: computeXAxis(on: axisContentSize), color: .defaultAxis)
+                            }
                             AlignmentBarChart(
                                 data: data.values,
                                 barWidth: barWidth,
@@ -90,18 +101,20 @@ public struct BarChart: View {
                                 .frame(width: axisContentSize.width,
                                        height: axisContentSize.height)
                         }
-                        HStack(spacing: 0) {
-                            let barSpace = computeBarSpace(chartWidth: axisContentSize.width)
-                            Spacer(minLength: barSpace / 2)
-                            ForEach(0..<data.labels.count) { index in
-                                Text(data.labels[index])
-                                    .font(style.xLabelFont)
-                                    .foregroundColor(style.xLabelColor)
-                                    .frame(width: barWidth + barSpace)
+                        if visibility.xAxisLabel {
+                            HStack(spacing: 0) {
+                                let barSpace = computeBarSpace(chartWidth: axisContentSize.width)
+                                Spacer(minLength: barSpace / 2)
+                                ForEach(0..<data.labels.count) { index in
+                                    Text(data.labels[index])
+                                        .font(style.xLabelFont)
+                                        .foregroundColor(style.xLabelColor)
+                                        .frame(width: barWidth + barSpace)
+                                }
+                                Spacer(minLength: barSpace / 2)
                             }
-                            Spacer(minLength: barSpace / 2)
+                            .frame(height: xAxisLabelHeight)
                         }
-                        .frame(height: xAxisLabelHeight)
                     }
                 }
             }
@@ -147,6 +160,7 @@ struct BarChart_Preview: PreviewProvider {
     static var previews: some View {
         Group {
             BarChart(data: barChartData)
+                .visible(BarChartVisibility(xAxisLabel: true, yAxisLabel: false, xAxisLine: false, yAxisLine: false))
                 .frame(width: 400, height: 260)
             
             BarChart(data: barChartData2, barWidth: 16)
@@ -154,6 +168,16 @@ struct BarChart_Preview: PreviewProvider {
                 .frame(width: 400, height: 260)
             
             BarChart(data: barChartData3, barWidth: 16)
+                .style(BarChartStyle(barShape: .round(radius: 4)))
+                .frame(width: 400, height: 260)
+            
+            BarChart(data: barChartData3, barWidth: 16)
+                .visible(.init(xAxis: false))
+                .style(BarChartStyle(barShape: .round(radius: 4)))
+                .frame(width: 400, height: 260)
+            
+            BarChart(data: barChartData3, barWidth: 16)
+                .visible(.init(xAxis: false, yAxis: false))
                 .style(BarChartStyle(barShape: .round(radius: 4)))
                 .frame(width: 400, height: 260)
         }
