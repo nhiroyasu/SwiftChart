@@ -9,8 +9,8 @@ extension Color {
         self.init(.sRGB, red: r, green: g, blue: b, opacity: min(max(alpha, 0.0), 1.0))
     }
     
-    static let defaultBar: Color = Color(hex: 0xF22E62)
-    static let defaultBackground: Color = Color(hex: 0xF2F2F2)
-    static let defaultAxis: Color = Color(hex: 0xD9D9D9)
-    static let defaultText: Color = Color(hex: 0x37403C)
+    public static let defaultBar: Color = Color(hex: 0xF22E62)
+    public static let defaultBackground: Color = Color(hex: 0xF2F2F2)
+    public static let defaultAxis: Color = Color(hex: 0xD9D9D9)
+    public static let defaultText: Color = Color(hex: 0x37403C)
 }

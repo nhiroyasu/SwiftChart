@@ -10,7 +10,7 @@ struct YAxisLabel: Identifiable {
 
 public struct BarChart: View {
     
-    @Binding var data: BarChartData
+    var data: BarChartData
     var barWidth: Double = 32
     @Environment(\.barChartStyle) var style
     
@@ -57,7 +57,7 @@ public struct BarChart: View {
         }
     }
     
-    var body: some View {
+    public var body: some View {
         VStack(spacing: 0) {
             Spacer(minLength: 16)
             GeometryReader { geometry in
@@ -134,13 +134,13 @@ struct BarChart_Preview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            BarChart(data: .constant(barChartData))
+            BarChart(data: barChartData)
                 .frame(width: 400, height: 260)
             
-            BarChart(data: .constant(barChartData2))
+            BarChart(data: barChartData2)
                 .frame(width: 400, height: 260)
             
-            BarChart(data: .constant(barChartData2), barWidth: 16)
+            BarChart(data: barChartData2, barWidth: 16)
                 .style(BarChartStyle(xLabelColor: .blue, barShape: .pill))
                 .frame(width: 400, height: 260)
         }
