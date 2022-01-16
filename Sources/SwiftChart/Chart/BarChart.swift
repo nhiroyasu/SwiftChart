@@ -11,8 +11,16 @@ struct YAxisLabel: Identifiable {
 public struct BarChart: View {
     
     var data: BarChartData
-    var barWidth: Double = 32
+    var barWidth: Double
     @Environment(\.barChartStyle) var style
+    
+    public init(
+        data: BarChartData,
+        barWidth: Double = 32
+    ) {
+        self.data = data
+        self.barWidth = barWidth
+    }
     
     private let xAxisLabelHeight: Double = 32
     private let yAxisLabelWidth: Double = 64
