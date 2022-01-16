@@ -1,13 +1,6 @@
 import Foundation
 import SwiftUI
 
-
-struct YAxisLabel: Identifiable {
-    var id = UUID()
-    let label: String
-    let position: Double
-}
-
 public struct BarChart: View {
     
     var data: BarChartData
@@ -154,9 +147,6 @@ struct BarChart_Preview: PreviewProvider {
     static var previews: some View {
         Group {
             BarChart(data: barChartData)
-                .frame(width: 400, height: 260)
-            
-            BarChart(data: barChartData2)
                 .frame(width: 400, height: 260)
             
             BarChart(data: barChartData2, barWidth: 16)
