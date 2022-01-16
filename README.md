@@ -8,13 +8,12 @@ A charting library for SwiftUI.
 struct SampleView: View {
     var chartData = BarChartData(
         items: [
-            .init(value: 10, label: "12/11"),
-            .init(value: 60, label: "12/12"),
-            .init(value: 10, label: "12/13"),
-            .init(value: 60, label: "12/14"),
-            .init(value: 80, label: "12/15"),
-            .init(value: 120, label: "12/16"),
-            .init(value: 5, label: "12/17")
+            .init(value: 10, label: "12/1"),
+            .init(value: 20, label: "12/2"),
+            .init(value: 60, label: "12/3"),
+            .init(value: 30, label: "12/4"),
+            .init(value: 70, label: "12/5"),
+            .init(value: 5, label: "12/6"),
         ]
     )
 
@@ -58,13 +57,12 @@ struct SampleView: View {
 struct SampleView: View {
     var chartData = BarChartData(
         items: [
-            .init(value: 10, label: "12/11"),
-            .init(value: 60, label: "12/12"),
-            .init(value: 10, label: "12/13"),
-            .init(value: 60, label: "12/14"),
-            .init(value: 80, label: "12/15"),
-            .init(value: 120, label: "12/16"),
-            .init(value: 5, label: "12/17")
+            .init(value: 10, label: "12/1"),
+            .init(value: 20, label: "12/2"),
+            .init(value: 60, label: "12/3"),
+            .init(value: 30, label: "12/4"),
+            .init(value: 70, label: "12/5"),
+            .init(value: 5, label: "12/6"),
         ]
     )
 
