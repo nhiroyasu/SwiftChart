@@ -8,7 +8,7 @@ struct YAxisLabel: Identifiable {
     let position: Double
 }
 
-struct BarChart: View {
+public struct BarChart: View {
     
     @Binding var data: BarChartData
     var barWidth: Double = 32

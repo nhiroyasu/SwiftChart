@@ -1,7 +1,7 @@
 import Foundation
 
-struct BarChartData {
-    var items: [BarChartItem]
+public struct BarChartData {
+    public var items: [BarChartItem]
     
     var values: [Double] {
         items.map { $0.value }
@@ -13,7 +13,7 @@ struct BarChartData {
     
 }
 
-struct BarChartItem {
-    let value: Double
-    let label: String
+public struct BarChartItem {
+    public let value: Double
+    public let label: String
 }

@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-enum BarChartShapeType {
+public enum BarChartShapeType {
     /// 真四角
     case rect
     /// 指定したradiusだけ角を丸める

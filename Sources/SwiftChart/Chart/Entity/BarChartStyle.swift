@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct BarChartStyle {
+public struct BarChartStyle {
     var xLabelFont: Font = .custom("Helvetica", size: 12)
     var xLabelColor: Color = .defaultText
     var yLabelFont: Font = .custom("Helvetica", size: 12)
@@ -10,7 +10,7 @@ struct BarChartStyle {
     var backgroundColor: Color = .defaultBackground
     var barShape: BarChartShapeType = .rect
     
-    init(
+    public init(
         xLabelFont: Font = .custom("Helvetica", size: 12),
         xLabelColor: Color = .defaultText,
         yLabelFont: Font = .custom("Helvetica", size: 12),
