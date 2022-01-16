@@ -12,4 +12,5 @@ extension Color {
     static let defaultBar: Color = Color(hex: 0xF22E62)
     static let defaultBackground: Color = Color(hex: 0xF2F2F2)
     static let defaultAxis: Color = Color(hex: 0xD9D9D9)
+    static let defaultText: Color = Color(hex: 0x37403C)
 }

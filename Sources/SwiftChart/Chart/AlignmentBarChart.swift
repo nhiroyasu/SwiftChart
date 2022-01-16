@@ -13,7 +13,7 @@ struct AlignmentBarChart: View {
     private var marginBottom: Double
     private var marginLeft: Double
     private var marginRight: Double
-    private var barColor: Color = .defaultBar
+    private var barColor: Color
     private var data: [Double]
     
     public init(
@@ -21,12 +21,14 @@ struct AlignmentBarChart: View {
         barWidth: Double,
         shapeType: BarChartShapeType,
         barSpaceAlign: ChartAlign = DefaultChartAlign,
+        barColor: Color = .defaultBar,
         margin: Double = DefaultMargin
     ) {
         self.data = data
         self.barWidth = barWidth
         self.shapeType = shapeType
         self.barSpaceAlign = barSpaceAlign
+        self.barColor = barColor
         self.marginTop = margin
         self.marginBottom = margin
         self.marginLeft = margin
@@ -38,6 +40,7 @@ struct AlignmentBarChart: View {
         barWidth: Double,
         shapeType: BarChartShapeType,
         barSpaceAlign: ChartAlign = .around,
+        barColor: Color = .defaultBar,
         marginTop: Double = 0,
         marginBottom: Double = 0,
         marginLeft: Double = 0,
@@ -47,6 +50,7 @@ struct AlignmentBarChart: View {
         self.barWidth = barWidth
         self.shapeType = shapeType
         self.barSpaceAlign = barSpaceAlign
+        self.barColor = barColor
         self.marginTop = marginTop
         self.marginBottom = marginBottom
         self.marginLeft = marginLeft

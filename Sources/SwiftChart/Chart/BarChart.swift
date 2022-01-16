@@ -12,7 +12,7 @@ struct BarChart: View {
     
     @Binding var data: BarChartData
     var barWidth: Double = 32
-    @Environment(\.barChartShapeType) var shapeType
+    @Environment(\.barChartStyle) var style
     
     private let xAxisLabelHeight: Double = 32
     private let yAxisLabelWidth: Double = 64
@@ -67,6 +67,8 @@ struct BarChart: View {
                         ForEach(yAxisLabels) { label in
                             let halfFontSize = 8.0
                             Text(label.label)
+                                .font(style.yLabelFont)
+                                .foregroundColor(style.yLabelColor)
                                 .offset(x: 0, y: label.position - halfFontSize)
                         }
                     }
@@ -79,7 +81,11 @@ struct BarChart: View {
                         ZStack {
                             AxisLine(axis: computeYAxis(on: axisContentSize), color: .defaultAxis)
                             AxisLine(axis: computeXAxis(on: axisContentSize), color: .defaultAxis)
-                            AlignmentBarChart(data: data.values, barWidth: barWidth, shapeType: shapeType)
+                            AlignmentBarChart(
+                                data: data.values,
+                                barWidth: barWidth,
+                                shapeType: style.barShape,
+                                barColor: style.barColor)
                                 .frame(width: axisContentSize.width,
                                        height: axisContentSize.height)
                         }
@@ -88,6 +94,8 @@ struct BarChart: View {
                             Spacer(minLength: barSpace / 2)
                             ForEach(0..<data.labels.count) { index in
                                 Text(data.labels[index])
+                                    .font(style.xLabelFont)
+                                    .foregroundColor(style.xLabelColor)
                                     .frame(width: barWidth + barSpace)
                             }
                             Spacer(minLength: barSpace / 2)
@@ -97,7 +105,7 @@ struct BarChart: View {
                 }
             }
         }
-        .background(Color.defaultBackground)
+        .background(style.backgroundColor)
     }
 }
 
@@ -133,7 +141,7 @@ struct BarChart_Preview: PreviewProvider {
                 .frame(width: 400, height: 260)
             
             BarChart(data: .constant(barChartData2), barWidth: 16)
-                .shape(.pill)
+                .style(BarChartStyle(xLabelColor: .blue, barShape: .pill))
                 .frame(width: 400, height: 260)
         }
     }
