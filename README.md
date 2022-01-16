@@ -25,6 +25,8 @@ struct SampleView: View {
 }
 ```
 
+![image](https://user-images.githubusercontent.com/40600280/149664475-e8960a81-a136-486a-a8c4-236640468034.png)
+
 
 ## Style
 ```swift
@@ -73,3 +75,6 @@ struct SampleView: View {
     }
 }
 ```
+
+![image](https://user-images.githubusercontent.com/40600280/149664500-2fa1512d-9678-4cb8-8bd4-600200c5f336.png)
+
