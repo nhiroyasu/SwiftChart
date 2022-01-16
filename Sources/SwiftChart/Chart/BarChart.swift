@@ -139,6 +139,17 @@ struct BarChart_Preview: PreviewProvider {
             .init(value: 740, label: "12/6"),
         ]
     )
+    static let barChartData3 = BarChartData(
+        items: [
+            .init(value: 10, label: "12/11"),
+            .init(value: 60, label: "12/12"),
+            .init(value: 10, label: "12/13"),
+            .init(value: 60, label: "12/14"),
+            .init(value: 80, label: "12/15"),
+            .init(value: 120, label: "12/16"),
+            .init(value: 5, label: "12/17")
+        ]
+    )
     
     static var previews: some View {
         Group {
@@ -150,6 +161,10 @@ struct BarChart_Preview: PreviewProvider {
             
             BarChart(data: barChartData2, barWidth: 16)
                 .style(BarChartStyle(xLabelColor: .blue, barShape: .pill))
+                .frame(width: 400, height: 260)
+            
+            BarChart(data: barChartData3, barWidth: 16)
+                .style(BarChartStyle(barShape: .round(radius: 4)))
                 .frame(width: 400, height: 260)
         }
     }
