@@ -22,8 +22,8 @@ struct BarChartShape: Shape {
             data.enumerated().forEach { (index, value) in
                 let barRect = computeBarRect(index: index, value: value, on: rect)
                 path.addRect(barRect)
+                path.closeSubpath()
             }
-            path.closeSubpath()
         }
     }
     
@@ -81,7 +81,8 @@ struct BarChartShape_Preview: PreviewProvider {
                 marginLeft: 16,
                 marginRight: 16,
                 data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
-                .stroke(Color.white, lineWidth: 3)
+                .stroke(Color.defaultBar, lineWidth: 3)
+                .background(Color.defaultBackground)
                 .frame(width: 400, height: 300)
             
             BarChartShape(
@@ -92,7 +93,8 @@ struct BarChartShape_Preview: PreviewProvider {
                 marginLeft: 16,
                 marginRight: 16,
                 data: .constant([10, 50, 60, 30, 20, 5, 15, 120]))
-                .fill(Color.white)
+                .fill(Color.defaultBar)
+                .background(Color.defaultBackground)
                 .frame(width: 400, height: 300)
         }
     }
